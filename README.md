@@ -1,6 +1,6 @@
 # ivillage-programming
 
-iVillage（メンバー：mura-s, icchida, mori, toshifon）のためのプログラミング練習用リポジトリ。
+iVillage（メンバー：mura-s, icchida, m-summer, toshifon）のためのプログラミング練習用リポジトリ。
 
 ### ソースコードの提出方法
 
