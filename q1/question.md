@@ -9,7 +9,7 @@ ruby my_command.rb directory
 
 ### 実行例
 
-- カレントディレクトリにはdirectoryというディレクトリのみがある。
+- カレントディレクトリには自分の作ったrubyファイルとdirectoryというディレクトリのみがある。
 - directoryの中には、hoge.rbというファイルと、barとabcというディレクトリがある。
 - barの中にはbaz.txtがあり、abcの中にはaとbとcがある。
 
@@ -31,7 +31,8 @@ directory
 ```
 .
 |-- directory
-    |-- hoge.rb
-    |-- bar
-    |-- abc
+|   |-- hoge.rb
+|   |-- bar
+|   |-- abc
+|-- my_command.rb
 ```
