@@ -80,15 +80,28 @@ while (myWin < MATCHTIME)&&(opWin < MATCHTIME)
 
 puts "じゃん！けん！(G:ぐー,T:ぱー,Y:ちょきのいずれかのキーを3秒以内に押してください。)"
 
+countdown_thread = Thread.new do
+	for num in 1..3 do
+		puts 4-num
+		sleep(1)
+	end
+	puts "終了"
+end
 
+input_thread = Thread.new do
+	$myHand = gets.chomp
+	while $myHand == nil; end
+	countdown_thread.kill
+	$opHand = numToKey(rand(3))
+	print "あなた:" , keyToHand($myHand) , "\n"
+	print "わたし:" , keyToHand($opHand) , "\n"
 
-myHand = gets.chomp
-opHand = numToKey(rand(3))
+end
 
-print "あなた:" , keyToHand(myHand) , "\n"
-print "わたし:" , keyToHand(opHand) , "\n"
+countdown_thread.join
+input_thread.join
 
-result = judgeJanken(myHand, opHand)
+result = judgeJanken($myHand, $opHand)
 
 if (result == 0)
 	myWin += 1
@@ -102,4 +115,3 @@ print "あなたの勝利数:" , myWin , "\n"
 print "わたしの勝利数:" , opWin , "\n"
 
 end
-
