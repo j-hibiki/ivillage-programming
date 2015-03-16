@@ -42,8 +42,6 @@ class Shiritori
 end
 
 class Com
-  attr_reader :words
-
   def initialize
     @init_words = read_words
     @com_words = Marshal.load(Marshal.dump(@init_words))
