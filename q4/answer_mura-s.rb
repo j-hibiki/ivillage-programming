@@ -1,7 +1,7 @@
 # ボーリングの合計スコアを計算する
 #
-# @param [Array] input 各フレームごとのスコア、２次元配列
-# @return [Number] 合計スコア
+# @param [Array<Array<Integer>>] input 各フレームごとのスコア、２次元配列
+# @return [Integer] 合計スコア
 def calc_score(input)
   frame_results = Array.new(10, 0)
   strike_spare_counter = Array.new(10, 0)
