@@ -1,47 +1,39 @@
-=begin
+# 160112 変数名と関数名をsnake_caseに変更
 
-0ぐー1ぱー2ちょき	
-0勝ち1負け2あいこ
-
-=end 
-
-ROCK = "ぐー"
-PAPER = "ぱー"
+ROCK 		= "ぐー"
+PAPER 	= "ぱー"
 SCISSOR = "ちょき"
 
-WIN  = "あなたの勝ちです！チッキショ〜！！"
-LOSE = "あなたの負けです！ざまあ！！"
-DRAW = "あいこかよ！ハラショー"
+WIN_MESSAGE  		= "あなたの勝ちです！チッキショ〜！！"
+LOSE_MESSAGE 		= "あなたの負けです！ざまあ！！"
+DRAW_MESSAGE 		= "あいこかよ！ハラショー"
+TIMEOUT_MESSAGE = "〜〜タイムオーバー〜〜お前に食わせるタンメンは、、、ねえ！"
 
-MATCHTIME = 1
-
-myWin = 0
-opWin = 0
-
-def judgeJanken(myHand,opHand)
-	if    (myHand == "G")&&(opHand == "G")
+def judge_janken(my_hand,op_hand)
+	# 0勝ち1負け2あいこ
+	if    (my_hand == "G")&&(op_hand == "G")
 		result = 2
-	elsif (myHand == "G")&&(opHand == "T")
+	elsif (my_hand == "G")&&(op_hand == "T")
 		result = 1
-	elsif (myHand == "G")&&(opHand == "Y")
+	elsif (my_hand == "G")&&(op_hand == "Y")
 		result = 0
-	elsif (myHand == "T")&&(opHand == "G")
+	elsif (my_hand == "T")&&(op_hand == "G")
 		result = 0
-	elsif (myHand == "T")&&(opHand == "T")
+	elsif (my_hand == "T")&&(op_hand == "T")
 		result = 2
-	elsif (myHand == "T")&&(opHand == "Y")
+	elsif (my_hand == "T")&&(op_hand == "Y")
 		result = 1
-	elsif (myHand == "Y")&&(opHand == "G")
+	elsif (my_hand == "Y")&&(op_hand == "G")
 		result = 1
-	elsif (myHand == "Y")&&(opHand == "T")
+	elsif (my_hand == "Y")&&(op_hand == "T")
 		result = 0
-	elsif (myHand == "Y")&&(opHand == "Y")
+	elsif (my_hand == "Y")&&(op_hand == "Y")
 		result = 2
 	end
 	result
 end
 
-def keyToHand(key)
+def key_to_hand(key)
 	if (key == "G")
 		hand = ROCK
 	elsif (key == "T")
@@ -53,7 +45,8 @@ def keyToHand(key)
 	hand
 end
 
-def numToKey(num)
+def num_to_key(num)
+	# 0ぐー1ぱー2ちょき	
 	if (num == 0)
 		key = "G"
 	elsif (num == 1)
@@ -65,53 +58,45 @@ def numToKey(num)
 	key
 end
 
-def showJanken(result)
+def show_janken(result)
 	if(result == 0)
-		show = WIN
+		show = WIN_MESSAGE
 	elsif(result == 1)
-		show = LOSE
+		show = LOSE_MESSAGE
 	elsif(result == 2)
-		show = DRAW
+		show = DRAW_MESSAGE
 	end
 	show
 end
 
-while (myWin < MATCHTIME)&&(opWin < MATCHTIME)
+def main
 
 puts "じゃん！けん！(G:ぐー,T:ぱー,Y:ちょきのいずれかのキーを3秒以内に押してください。)"
 
-countdown_thread = Thread.new do
-	for num in 1..3 do
-		puts 4-num
-		sleep(1)
+	countdown_thread = Thread.new do
+		for num in 1..3 do
+			puts 4-num
+			sleep(1)
+		end
+		puts TIMEOUT_MESSAGE
+		exit
 	end
-	puts "終了"
-end
 
-input_thread = Thread.new do
-	$myHand = gets.chomp
-	while $myHand == nil; end
-	countdown_thread.kill
-	$opHand = numToKey(rand(3))
-	print "あなた:" , keyToHand($myHand) , "\n"
-	print "わたし:" , keyToHand($opHand) , "\n"
+	input_thread = Thread.new do
+		$my_hand = gets.chomp
+		while $my_hand == nil; end
+		countdown_thread.kill
+		$op_hand = num_to_key(rand(3))
+		print "あなた:" , key_to_hand($my_hand) , "\n"
+		print "わたし:" , key_to_hand($op_hand) , "\n"
+	end
 
-end
+	countdown_thread.join
+	input_thread.join
 
-countdown_thread.join
-input_thread.join
-
-result = judgeJanken($myHand, $opHand)
-
-if (result == 0)
-	myWin += 1
-elsif (result == 1)
-	opWin += 1
-end
-
-puts showJanken(result)
-
-print "あなたの勝利数:" , myWin , "\n"
-print "わたしの勝利数:" , opWin , "\n"
+	result = judge_janken($my_hand, $op_hand)
+	puts show_janken(result)
 
 end
+
+main

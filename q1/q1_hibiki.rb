@@ -1,3 +1,5 @@
+# 160112 変数名をsnake_caseに変更
+
 BRANCH  = "|-- "
 VBRANCH = "| "
 EBRANCH = "└ "
@@ -9,13 +11,18 @@ puts ARGV[0]
 
 for child in children do
   puts child.gsub(ARGV[0] + "/",BRANCH)
-  grandChildren = Dir.glob("#{child}/*")
+  grand_children = Dir.glob("#{child}/*")
 
-  for grandChild in grandChildren do
+  for grand_child in grand_children do
     if child == children[children.length-1] 
-      puts grandChild.gsub(child+"/", " " + SPACE + BRANCH)
+      puts grand_child.gsub(child+"/", " " + SPACE + BRANCH)
     else
-      puts grandChild.gsub(child+"/", VBRANCH + SPACE + BRANCH)
+      puts grand_child.gsub(child+"/", VBRANCH + SPACE + BRANCH)
     end
   end
+end
+
+if ARGV.size != 1
+  puts "Usage: ruby q1_hibiki.rb directory"
+  exit
 end
