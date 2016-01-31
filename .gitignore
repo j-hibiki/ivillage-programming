@@ -3,3 +3,7 @@ vendor/bundle
 
 # idea
 .idea
+
+# scala
+project
+target
