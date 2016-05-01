@@ -4,6 +4,8 @@ A_WIN_MSG = "PlayerA win!"
 B_WIN_MSG = "PlayerB win!"
 DRAW_MSG  = "Draw"
 
+FCARDS_MAP = {"A" => 1, "X" => 10, "J" => 11, "Q" => 12, "K" => 13}
+
 TALON = [
   "sA","s2","s3","s4","s5","s6","s7","s8","s9","sX","sJ","sQ","sK",
   "hA","h2","h3","h4","h5","h6","h7","h8","h9","hX","hJ","hQ","hK",
@@ -26,8 +28,15 @@ def shuffle(cards)
   cards = cards.shuffle
 end
 
-def sort(hand)
-  hand = hand.sort_by{|file| file[/\d+/].to_i}
+def sort(tefuda)
+  tefuda.sort_by do |card|
+    c = card[1]
+    if FCARDS_MAP.keys.include?(c) 
+      FCARDS_MAP[c]
+    else 
+      c.to_i
+    end
+  end
 end
 
 #1
@@ -68,31 +77,20 @@ end
 
 def judge_hand(tefuda)
   hand = 0
-  if is_loyal_straight_flush(tefuda) == true then
-    hand = 1
-  elsif is_straight_flush(tefuda) == true then
-    hand = 2
-  elsif is_four_card(tefuda) == true then
-    hand = 3
-  elsif is_full_house(tefuda) == true then
-    hand = 4
-  elsif is_flush(tefuda) == true then
-    hand = 5
-  elsif is_straight(tefuda) == true then
-    hand = 6
-  elsif is_three_card(tefuda) == true then
-    hand = 7
-  elsif is_two_pairs(tefuda) == true then
-    hand = 8
-  elsif is_one_pair(tefuda) == true then
-    hand = 9
-  else
-    hand = 10
+  when
+  case is_loyal_straight_flush(tefuda) then hand = 1
+  case is_straight_flush(tefuda) then hand = 2
+  case is_four_card(tefuda) then hand = 3
+  case is_full_house(tefuda) then hand = 4
+  case is_flush(tefuda) then hand = 5
+  case is_straight(tefuda) then hand = 6
+  case is_three_card(tefuda) then hand = 7
+  case is_two_pairs(tefuda) then hand = 8
+  case is_one_pair(tefuda) then hand = 9
+  else hand = 10
   end
   hand 
 end
-
-
 
 def test_cases
   puts "result of test1:#{is_loyal_straight_flush(TEST_LS_FLUSH)}"
